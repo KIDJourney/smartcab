@@ -56,7 +56,7 @@ class LearningAgent(Agent):
         self.epsilon = self.alpha ** self.train_times
 
     def learn_more_reduce(self):
-        self.epsilon = self.epsilon - 0.001
+        self.epsilon = self.epsilon - 0.0002
 
     def build_state(self):
         """ The build_state function is called when the agent requests data from the 
@@ -186,7 +186,7 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent, learning=True, alpha=0.6)
+    agent = env.create_agent(LearningAgent, learning=True, alpha=0.55)
     
     ##############
     # Follow the driving agent
@@ -201,7 +201,7 @@ def run():
     #   display      - set to False to disable the GUI if PyGame is enabled
     #   log_metrics  - set to True to log trial and simulation results to /logs
     #   optimized    - set to True to change the default log file name
-    sim = Simulator(env, update_delay=0.00000001, log_metrics=True, optimized=True, display=False)
+    sim = Simulator(env, update_delay=0, log_metrics=True, optimized=True, display=False)
     
     ##############
     # Run the simulator
