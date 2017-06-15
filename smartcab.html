@@ -13176,7 +13176,7 @@ QmCC
 <p>与效率相关的特征有：</p>
 <p>waypoint。
 这个特征决定了智能体行进方向的策略。</p>
-<p>deadline我认为可以舍弃掉，这个值对于智能体本身进行学习没有起到什么指导性的作用。</p>
+<p>deadline我认为可以舍弃掉，这个值对于智能体本身进行学习没有起到什么指导性的作用。并且deadline的取值范围在20-30左右，会使状态空间扩大20-30倍，这大大增大了求解的计算量。</p>
 
 </div>
 </div>
@@ -16925,7 +16925,7 @@ GIZhGIZRJ0xgGYZhGIZhGIZh1AkTWIZhGIZhGIZhGHXi/wF979VZw9ChugAAAABJRU5ErkJggg==
 <ul>
 <li>我使用了$$ \epsilon_{t-1} = epsilon_{t} - 0.0005$$作为衰减函数。</li>
 <li>5000次。</li>
-<li>我使用了1-0.05，alpha为0.55，我认为在该任务中主要的目的是让智能体学习到违反交通规则的严重性以及和他人相撞的危险性，以及到达终点的必要性，因此应该尽可能的让智能体犯错，使其了解所有可能的惩罚情况。</li>
+<li>我的epsilon选择了1，tolerance选择了0.0005，alpha为0.55。之所以这样选择，是因为在训练阶段，我认为让智能体更多的探索可能的情况更为重要，因此将epsilon的衰减速度设置的尽可能的慢。而alpha决定着学习的速度，我认为在驾驶代理学习过程中，应该尽可能的降低违反交通规则以及与他人相撞的可能性，因此应该增大模型的学习速度，使奖励和惩罚的力度都变大，让违规情况和正常情况的Q-value处于两个极端。这样才能避免智能体在运行过程中做出可能造成事故的决策。</li>
 <li>这个智能体的学习改进非常大，完成了预期的目标。</li>
 <li>是的，我认为智能体成功的学习了一个合适的策略。</li>
 <li>满意。</li>
@@ -16961,6 +16961,9 @@ GIZhGIZRJ0xgGYZhGIZhGIZh1AkTWIZhGIZhGIZhGHXi/wF979VZw9ChugAAAABJRU5ErkJggg==
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>回答：</strong> 
 我认为最优策略是在遵守交通规则，并避免相撞的情况下，尽可能的向waypoint出发。</p>
+<p>选择的优先级应该是：</p>
+<blockquote><p>避免相撞&gt;遵守规则&gt;向waypoint前进。</p>
+</blockquote>
 <p>例如:</p>
 
 <pre><code>{
@@ -16998,17 +17001,24 @@ GIZhGIZRJ0xgGYZhGIZhGIZh1AkTWIZhGIZhGIZhGHXi/wF979VZw9ChugAAAABJRU5ErkJggg==
  -- right : 0.50
  -- left : -9.77
 
+在红灯状态下，汽车应当做的动作为右转与停止，因此只有这两个Qvalue是正向的，其他动作都会受到惩罚。
+
 ('forward', 'green', 'left', 'left', 'left')
  -- forward : 1.81
  -- None : 0.32
  -- right : 0.43
  -- left : 0.35
 
+在绿灯状态下，并且车辆前进方向都为left的情况下，除了留在原地外，任何行为都应该是被允许的，但是向着waypoint前行可以获得最大的奖励。因此forward的Qvalue最大。但是这里的None的值是正的，与预期不太相符。
+
 ('left', 'green', 'right', None, 'forward')
  -- forward : 1.23
  -- None : -5.62
  -- right : 0.25
  -- left : -19.79
+
+ 在绿灯状态下，不行进会受到惩罚。但如果向waypoint行驶，会与前方的车辆发生碰撞，同样会受到惩罚。
+ 因此会选择forward和right中的其中一个动作进行执行。
 
 
 </code></pre>
@@ -17061,6 +17071,19 @@ GIZhGIZRJ0xgGYZhGIZhGIZh1AkTWIZhGIZhGIZhGHXi/wF979VZw9ChugAAAABJRU5ErkJggg==
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
