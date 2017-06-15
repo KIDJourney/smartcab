@@ -11892,7 +11892,7 @@ div#notebook {
 <ul>
 <li>智能出租车在模拟过程中并没有移动。</li>
 <li>由于驾驶代理并没有移动，所以在遇到红灯时得到了正面的奖励，在遇到绿灯时获得了负面的奖励。</li>
-<li>在代理不进行移动的情况下，遇到红灯会给予正面奖励，在遇到绿灯时会给于负面奖励。</li>
+<li>在代理不进行移动的情况下，遇到红灯会给予正面奖励，在遇到绿灯时会给于负面奖励。如果代理移动的话，在遇到红灯会给予负面奖励，在遇到绿灯的时候会给予正面刚奖励。</li>
 </ul>
 
 </div>
@@ -17057,6 +17057,8 @@ GIZhGIZRJ0xgGYZhGIZhGIZh1AkTWIZhGIZhGIZhGHXi/wF979VZw9ChugAAAABJRU5ErkJggg==
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>回答：</strong></p>
+<p>从智能车的角度来看，我认为是因为智能车无法分辨同一状态中距离终点到底有多远，因此无法利用到未来奖励。</p>
+<p>从环境的角度来看，在训练时间非常长的情况下，我认为到达终点的奖励是可以慢慢传播到起点的。但是本次试验中每次起点终点都是随机的，所以体会不到未来奖励。</p>
 
 </div>
 </div>
